@@ -1,0 +1,85 @@
+(base) evahteri@lx1-fuxi219:~/Koulu/fs-containers/todo-app/todo-backend$ docker exec -it todo-backend-mongo-1 bash
+root@bb25cbc31f10:/# mongosh
+Current Mongosh Log ID: 69fa2b751c5e2f36b944ba88
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.2
+Using MongoDB:          undefined
+Using Mongosh:          2.8.2
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+test> exit
+root@bb25cbc31f10:/# mongosh -u root -p example
+Current Mongosh Log ID: 69fa2b9da6b894d93c44ba88
+Connecting to:          mongodb://<credentials>@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.2
+Using MongoDB:          8.2.7
+Using Mongosh:          2.8.2
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2026-05-05T17:28:00.232+00:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2026-05-05T17:28:00.624+00:00: Soft rlimits for open file descriptors too low
+   2026-05-05T17:28:00.624+00:00: For customers running the current memory allocator, we suggest changing the contents of the following sysfsFile
+   2026-05-05T17:28:00.624+00:00: For customers running the current memory allocator, we suggest changing the contents of the following sysfsFile
+   2026-05-05T17:28:00.624+00:00: We suggest setting the contents of sysfsFile to 0.
+   2026-05-05T17:28:00.624+00:00: We suggest setting swappiness to 0 or 1, as swapping can cause performance problems.
+------
+
+test> show dbs
+admin         100.00 KiB
+config         92.00 KiB
+local          64.00 KiB
+the_database   56.00 KiB
+test> use the_database
+switched to db the_database
+the_database> show collections
+todos
+the_database> db.todos.find({})
+[
+  {
+    _id: ObjectId('69fa280336e203de0644ba89'),
+    text: 'Write code',
+    done: true
+  },
+  { _id: ObjectId('69fa280336e203de0644ba8a'), text: 'new stuff' }
+]
+the_database> db.todos.insertOne({text: 'Increase the number of tools in my tool belt', done: false})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69fa2c55a6b894d93c44ba89')
+}
+the_database> db.todos.find({})
+[
+  {
+    _id: ObjectId('69fa280336e203de0644ba89'),
+    text: 'Write code',
+    done: true
+  },
+  { _id: ObjectId('69fa280336e203de0644ba8a'), text: 'new stuff' },
+  {
+    _id: ObjectId('69fa2c55a6b894d93c44ba89'),
+    text: 'Increase the number of tools in my tool belt',
+    done: false
+  }
+]
+the_database> exit
+root@bb25cbc31f10:/# exit
+exit
+(base) evahteri@lx1-fuxi219:~/Koulu/fs-containers/todo-app/todo-backend$ MONGO_URL=mongodb://the_username:the_password@localhost:3456/the_database npm run dev
+
+> todo-express-backend@0.0.0 dev
+> nodemon ./bin/www
+
+[nodemon] 3.1.14
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node ./bin/www`
+GET /todos/69fa280336e203de0644ba8a 304 32.684 ms - -
+GET /todos/ 200 10.558 ms - 224
+^C
