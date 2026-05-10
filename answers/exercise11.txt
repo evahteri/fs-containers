@@ -1,0 +1,27 @@
+(base) evahteri@lx1-fuxi219:~/Koulu/fs-containers/todo-app/todo-backend$ docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS         PORTS                                           NAMES
+0e2328004d87   mongo                           "docker-entrypoint.s…"   8 hours ago     Up 6 seconds   0.0.0.0:3456->27017/tcp, [::]:3456->27017/tcp   todo-backend-mongo-1
+40f7e146a2da   redis                           "docker-entrypoint.s…"   8 hours ago     Up 6 seconds   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp     todo-backend-redis-1
+f1225c6b938a   moby/buildkit:buildx-stable-1   "buildkitd --allow-i…"   14 months ago   Up 9 hours                                                     buildx_buildkit_mybuilder0
+(base) evahteri@lx1-fuxi219:~/Koulu/fs-containers/todo-app/todo-backend$ docker exec -it todo-backend-redis-1
+docker: 'docker exec' requires at least 2 arguments
+
+Usage:  docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+See 'docker exec --help' for more information
+(base) evahteri@lx1-fuxi219:~/Koulu/fs-containers/todo-app/todo-backend$ docker exec -it todo-backend-redis-1 bash
+root@40f7e146a2da:/data# KEYS
+bash: KEYS: command not found
+root@40f7e146a2da:/data# redis
+bash: redis: command not found
+root@40f7e146a2da:/data# redis-cli KEYS
+(error) ERR wrong number of arguments for 'keys' command
+root@40f7e146a2da:/data# redis-cli KEYS counter
+1) "counter"
+root@40f7e146a2da:/data# redis-cli GET counter
+"2"
+root@40f7e146a2da:/data# redis-cli SET counter 9001
+OK
+root@40f7e146a2da:/data# redis-cli DEL counter     
+(integer) 1
+root@40f7e146a2da:/data# 
