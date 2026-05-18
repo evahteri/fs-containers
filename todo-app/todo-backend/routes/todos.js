@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     done: false
   })
   res.send(todo);
-  await redis.set('counter', parseInt(await redis.get('counter') || '0') + 1);
+  await redis.set('counter', parseInt(await redis.get('counter') || 0) + 1);
 });
 
 const singleRouter = express.Router();
